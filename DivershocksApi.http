@@ -1,0 +1,6 @@
+@DivershocksApi_HostAddress = http://localhost:5294
+
+GET {{DivershocksApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
