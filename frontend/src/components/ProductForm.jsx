@@ -1,0 +1,10 @@
+import React, { useState } from 'react';
+import Modal from './Modal';
+import { api } from '../api';
+export default function ProductForm({ product, onClose, onSaved }) {
+  const [form, setForm] = useState(product || { referencia:'', nombre:'', categoria:'', foto:'', precio:'', tallas:[] });
+  const [sizes, setSizes] = useState('36-40, 40-46'); const [busy, setBusy] = useState(false); const [error, setError] = useState('');
+  const change = e => setForm({ ...form, [e.target.name]: e.target.value });
+  async function submit(e) { e.preventDefault(); setBusy(true); setError(''); try { await api.save({ ...form, precio:Number(form.precio), tallas: product ? [] : sizes.split(',').map(s => s.trim()) }, product?.id); onSaved('Producto guardado.'); } catch(e) {setError(e.message);} finally {setBusy(false);} }
+  return <Modal title={product ? 'Editar calcetines' : 'Un nuevo modelo'} onClose={() => !busy && onClose()}><p className="muted">La ficha de tus calcetines. Las existencias se añaden con un movimiento.</p><form onSubmit={submit}><label>Nombre<input name="nombre" required value={form.nombre} onChange={change} placeholder="Ej. Rayas de colores" autoFocus/></label><div className="form-columns"><label>Referencia<input name="referencia" required value={form.referencia} onChange={change} placeholder="Ej. DIV-001"/></label><label>Precio (€)<input name="precio" required type="number" min="0" step="0.01" value={form.precio} onChange={change}/></label></div><label>Categoría<input name="categoria" value={form.categoria || ''} onChange={change} placeholder="Ej. Estampados"/></label><label>URL de la foto (opcional)<input name="foto" type="url" value={form.foto || ''} onChange={change} placeholder="https://…"/></label>{!product && <label>Tallas, separadas por comas<input required value={sizes} onChange={e => setSizes(e.target.value)}/></label>}{error && <p role="alert" className="error">{error}</p>}<div className="modal-actions"><button type="button" disabled={busy} onClick={onClose}>Cancelar</button><button className="primary" disabled={busy}>{busy ? 'Guardando…' : 'Guardar producto'}</button></div></form></Modal>;
+}

@@ -9,4 +9,5 @@ public class Producto
     public string Categoria { get; set; } = string.Empty;
     public string Foto { get; set; } = string.Empty;
     public double Precio { get; set; }
+    public bool Activo { get; set; } = true;
 }

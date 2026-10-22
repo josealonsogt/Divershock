@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+    <Content Remove="frontend/**" />
+    <None Remove="frontend/node_modules/**" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="diverShocks.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="launchers/Iniciar-Divershocks.bat" CopyToPublishDirectory="PreserveNewest" Link="Iniciar-Divershocks.bat" />
+    <None Update="launchers/Iniciar-Divershocks.command" CopyToPublishDirectory="PreserveNewest" Link="Iniciar-Divershocks.command" />
   </ItemGroup>
 
 </Project>
